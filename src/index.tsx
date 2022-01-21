@@ -235,6 +235,29 @@ export default class ReactToPrint extends React.Component<IReactToPrintProps> {
     printWindow.style.left = "-1000px";
     printWindow.id = "printWindow";
 
+    const domDoc =
+      printWindow.contentDocument || printWindow.contentWindow?.document;
+    if (domDoc && docType) {
+      domDoc.open();
+      domDoc.write("<!DOCTYPE html>");
+      domDoc.close();
+      // if (typeof docType === "boolean") {
+      //   const newDoctype = document.implementation.createDocumentType(
+      //     "html",
+      //     "",
+      //     "",
+      //   );
+      //   domDoc?.insertBefore(newDoctype, domDoc.childNodes[0]);
+      // } else {
+      //   const newDoctype = document.implementation.createDocumentType(
+      //     docType.qualifiedName,
+      //     docType.publicId,
+      //     docType.systemId,
+      //   );
+      //   domDoc?.insertBefore(newDoctype, domDoc.childNodes[0]);
+      // }
+    }
+
     const contentNodes = findDOMNode(contentEl);
 
     if (!contentNodes) {
@@ -300,24 +323,6 @@ export default class ReactToPrint extends React.Component<IReactToPrintProps> {
         printWindow.contentDocument || printWindow.contentWindow?.document;
 
       if (domDoc) {
-        if (docType) {
-          if (typeof docType === "boolean") {
-            const newDoctype = document.implementation.createDocumentType(
-              "html",
-              "",
-              "",
-            );
-            domDoc?.insertBefore(newDoctype, domDoc.childNodes[0]);
-          } else {
-            const newDoctype = document.implementation.createDocumentType(
-              docType.qualifiedName,
-              docType.publicId,
-              docType.systemId,
-            );
-            domDoc?.insertBefore(newDoctype, domDoc.childNodes[0]);
-          }
-        }
-
         domDoc.body.appendChild(clonedContentNodes);
 
         if (fonts) {
