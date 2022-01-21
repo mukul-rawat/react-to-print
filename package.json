@@ -68,5 +68,6 @@
     "*.{ts,tsx}": [
       "eslint"
     ]
-  }
+  },
+  "type": "module"
 }
